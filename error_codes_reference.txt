@@ -1,0 +1,19 @@
+ERR-401: Authentication failure between Power Automate connector and Dataverse. Common cause: expired service account credential or revoked OAuth token. Remediation: verify connection reference in Power Platform, refresh credential in CyberArk-managed vault, retest connector.
+
+ERR-403: Access denied writing to the target Dataverse table. Common cause: the flow's service principal lost a required security role after an environment permission audit. Remediation: confirm the service principal still has the "Email Processor" security role assigned in the Power Platform admin center, then re-run the flow.
+
+ERR-408: Timeout while calling external mail relay API. Common cause: downstream mail service latency or throttling. Remediation: check retry policy configuration, review Azure Function timeout settings, escalate to platform team if recurring.
+
+ERR-410: Source mailbox item no longer exists. Common cause: the message was moved or deleted by a retention policy or the end user before processing completed. Remediation: confirm mailbox retention settings, check for concurrent manual mailbox cleanup, and re-ingest from the compliance archive if available.
+
+ERR-422: Malformed email payload rejected during schema validation. Common cause: sender system sent a non-standard MIME structure or missing required header (e.g. missing Message-ID). Remediation: inspect raw MIME with the mail connector's diagnostic export, add defensive parsing for the missing header, notify the sending system owner.
+
+ERR-429: Rate limit exceeded on the mail ingestion API. Common cause: burst of inbound emails exceeded the configured requests-per-minute quota. Remediation: review current throttling/backoff configuration, stagger batch reprocessing, request a quota increase if this recurs during peak hours.
+
+ERR-450: Message quarantined by spam/malware filter before processing. Common cause: attachment or sender domain tripped the security gateway's heuristic filter. Remediation: check the security gateway quarantine console, validate the sender domain against the allow-list, release and reprocess if confirmed safe.
+
+ERR-500: Unhandled exception in the PDF attachment parsing step. Common cause: a corrupted or password-protected PDF attachment crashed the parser. Remediation: check Application Insights exception trace for the flow run, add a guard clause for encrypted PDFs, ask the sender to resend an unprotected copy.
+
+ERR-502: Attachment size exceeded configured threshold during PDF merge step. Common cause: inbound email attachment larger than the 25MB guardrail. Remediation: check attachment size validation logic, confirm guardrail threshold with business, consider chunked processing.
+
+ERR-504: Gateway timeout communicating with the downstream case-management system. Common cause: case-management API was under maintenance or experiencing an outage. Remediation: check the case-management system status page, confirm the retry/dead-letter queue captured the message, replay once the system recovers.
